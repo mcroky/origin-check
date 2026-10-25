@@ -9,4 +9,5 @@ for(const file of ['sw.js','manifest.webmanifest','credits.html','dependency-not
 const scripts=await Promise.all(files.filter(f=>f.startsWith('assets')&&f.endsWith('.js')).map(f=>fs.readFile(path.join('dist',f),'utf8')));
 assert(scripts.join('').includes('공개 체험판'),'Missing public-preview notice');
 assert(!scripts.join('').includes('/api/mfds/status'),'Static preview still requests API status');
+assert(!/(?:gh[pousr]_[A-Za-z0-9]{30,}|sk-[A-Za-z0-9]{30,}|serviceKey=[A-Za-z0-9%+/]{40,}|MFDS_SERVICE_KEY\s*=\s*[A-Za-z0-9%+/]{40,})/.test(scripts.join('')),'Potential credential literal in artifact');
 console.log(`Pages artifact checked: ${files.length} entries; subpath, OCR, notices, no private folders or API status requests.`);
