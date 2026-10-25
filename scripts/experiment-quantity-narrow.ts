@@ -1,0 +1,11 @@
+import fs from 'node:fs/promises';import sharp from 'sharp';import {createWorker,PSM} from 'tesseract.js';import {enhanceLabel} from '../src/labelImage.ts';
+const root='validation/quantity-brands/';const out:any[]=[];const worker=await createWorker(['kor','eng'],1,{langPath:'public/ocr/lang',cachePath:'validation/cache'});
+try{for(const id of ['loacker-tiramisu-1','loacker-dark-1','heinz-mayo-light-1']){
+ await worker.reinitialize(['kor','eng']);const {data,info}=await sharp('validation/real-imports/'+id+'.webp').ensureAlpha().raw().toBuffer({resolveWithObject:true});const p=enhanceLabel({data:new Uint8ClampedArray(data),width:info.width,height:info.height},false);const input=await sharp(Buffer.from(p.data),{raw:{width:p.width,height:p.height,channels:4}}).png().toBuffer();
+ await worker.setParameters({tessedit_pageseg_mode:PSM.SINGLE_BLOCK,user_defined_dpi:'300'});const {data:page}=await worker.recognize(input,{}, {blocks:true});
+ const lines=page.blocks?.flatMap(b=>b.paragraphs.flatMap(p=>p.lines))??[];
+ const candidates=lines.filter(l=>/내\s*용\s*량/u.test(l.text)||/\d{2,}\s*m[li1I]/iu.test(l.text)).slice(0,3);
+ await worker.reinitialize('eng');await worker.setParameters({tessedit_pageseg_mode:PSM.SINGLE_LINE,user_defined_dpi:'300'});
+ for(const line of candidates){const value=/내용량\s*[:：]?\s*(\d+(?:\.\d+)?)/u.exec(line.text)?.[1]??/(\d+)\s*m[li1I]/iu.exec(line.text)?.[1];const at=line.words.findIndex(w=>value&&w.text.includes(value));const target=line.words.slice(at,at+2);console.log('tokens',target.map(w=>w.text));const b=target.length?{x0:target[0].bbox.x0,y0:Math.min(...target.map(w=>w.bbox.y0)),x1:target.at(-1)!.bbox.x1,y1:Math.max(...target.map(w=>w.bbox.y1))}:line.bbox;const box={left:Math.max(0,b.x0-8),top:Math.max(0,b.y0-8),width:Math.min(p.width-Math.max(0,b.x0-8),b.x1-b.x0+16),height:Math.min(p.height-Math.max(0,b.y0-8),b.y1-b.y0+16)};const crop=await sharp(input).extract(box).resize({height:120}).extend({top:20,bottom:20,left:20,right:20,background:'white'}).png().toBuffer();const {data:read}=await worker.recognize(crop);out.push({id,line:line.text,box,text:read.text});console.log(id,JSON.stringify({line:line.text,text:read.text}));}
+ await fs.writeFile(root+'unit-narrow-line-experiment.json',JSON.stringify(out,null,2));
+}}finally{await worker.terminate();}

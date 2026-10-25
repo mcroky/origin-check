@@ -1,0 +1,6 @@
+import fs from 'node:fs/promises';import {searchDatasets,rankRecords} from '../src/assistedSearch.ts';
+const root='validation/table-unified/',source=JSON.parse(await fs.readFile(root+'results.json','utf8'));const rows=[];
+for(const id of ['barilla-0','tabasco-0']){const row=source.rows.find((r:any)=>r.id===id),f=row.fields,n=f.names.find((n:any)=>n.explicit||n.contextual)??f.names[0];const input={name:n.value,language:n.language,importer:f.importer,page:1};
+ try{const trace=await searchDatasets(input,'both',{enabled:true,signal:AbortSignal.timeout(130000),pause:()=>new Promise(r=>setTimeout(r,1100)),request:async(query,signal)=>{const r=await fetch('http://127.0.0.1:5173/api/mfds/search',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(query),signal});const data=await r.json();if(!r.ok)throw Error(data.error??'FAILED');return data;}});const ranked=rankRecords(trace.result.records,n.value,f.quantity??'');rows.push({id,input,quantity:f.quantity,trace,ranked});console.log(JSON.stringify({id,batches:trace.batches,calls:trace.attempts.length,compatible:ranked.filter(r=>r.quantity==='same').length}));}
+ catch(e){rows.push({id,input,error:e instanceof Error?e.message:'FAILED'});}await fs.writeFile(root+'unified-live.json',JSON.stringify({checkedAt:new Date().toISOString(),rows},null,2));await new Promise(r=>setTimeout(r,1100));
+}

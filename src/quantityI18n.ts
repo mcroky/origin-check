@@ -1,0 +1,7 @@
+import type {Lang} from './i18n';
+export const quantityCopy:Record<Lang,{recognized:string;corrected:string;uncertain:string;conflict:string;missing:string;evidence:string;choose:string}>={
+ ko:{recognized:'총내용량에서 숫자와 단위를 읽었어요. 사진과 확인하세요.',corrected:'여러 인식 근거를 대조해 용량 표기를 보정했어요. 사진과 확인하세요.',uncertain:'단위가 불확실해 자동 보정하지 않았어요. 사진과 대조해 선택하거나 수정하세요.',conflict:'인식한 용량이 서로 달라 자동 선택하지 않았어요. 사진에서 확인한 값을 선택하거나 입력하세요.',missing:'총내용량을 읽지 못했어요. 영양성분의 100g당 수치와 구분해 확인하세요.',evidence:'용량 인식 원문과 보정 근거',choose:'사진과 대조해 선택'},
+ en:{recognized:'Read the total quantity and unit. Check against the photo.',corrected:'Compared OCR evidence to recover the quantity notation. Check the photo.',uncertain:'The unit is uncertain and was not corrected automatically. Choose or edit after checking the photo.',conflict:'OCR quantities conflict. Select or enter the value verified on the photo.',missing:'No total quantity found. Do not use the per-100g nutrient reference.',evidence:'Quantity OCR and correction evidence',choose:'Choose after checking photo'},
+ ja:{recognized:'総内容量の数字と単位を読み取りました。写真と確認してください。',corrected:'読取根拠を照合して内容量の表記を補正しました。写真と確認してください。',uncertain:'単位が不明確なため自動補正していません。写真と照合して選択・修正してください。',conflict:'読取量が一致しません。写真で確認した値を選択・入力してください。',missing:'総内容量を読めませんでした。100g当たりの栄養成分と区別してください。',evidence:'内容量のOCR原文と補正根拠',choose:'写真と確認して選択'},
+ zh:{recognized:'已读取总净含量与单位，请对照照片核对。',corrected:'结合识别依据修正净含量标示，请对照照片核对。',uncertain:'单位不明确，未自动修正。请对照照片选择或修改。',conflict:'多次识别的净含量不一致，请选择或输入照片确认值。',missing:'未读到总净含量，请勿使用每100g营养参考量。',evidence:'净含量OCR原文与修正依据',choose:'对照照片后选择'}
+};

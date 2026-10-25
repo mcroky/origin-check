@@ -1,0 +1,4 @@
+import fs from 'node:fs/promises';import sharp from 'sharp';import {createWorker,PSM} from 'tesseract.js';
+const cases=[{id:'heinz-mayo-light-1',box:{left:381,top:383,width:580,height:35}}];
+const w=await createWorker(['kor','eng'],1,{langPath:'public/ocr/lang',cachePath:'validation/cache'});const out=[];
+try{for(const c of cases){for(const width of [900,1160]){const input=await sharp(`validation/real-imports/${c.id}.webp`).extract(c.box).resize({width}).extend({top:30,bottom:30,left:30,right:30,background:'white'}).png().toBuffer();await w.setParameters({tessedit_pageseg_mode:PSM.SINGLE_LINE});const {data}=await w.recognize(input);out.push({...c,width,text:data.text});console.log(c.id,width,data.text);}await fs.writeFile('validation/real-imports/single-line-experiment.json',JSON.stringify(out,null,2));}}finally{await w.terminate();}

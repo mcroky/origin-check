@@ -1,0 +1,43 @@
+import {useEffect,useMemo,useRef,useState} from 'react';
+import {MfdsSearch,type RecordSelection,type SearchSeed} from './MfdsSearch';
+import {extractProductFields,compareProductOrigin,compareIdentifier,quantityComparison,recordQuantity,type Comparison} from './productMatch';
+import {workflowCopy} from './workflowI18n';
+import type {Lang} from './i18n';
+import {mergeOcrFields,type OcrPass} from './ocrSelection';
+import {recognitionCopy} from './recognitionI18n';
+import {quantityCopy} from './quantityI18n';
+import {parseQuantity} from './quantity';
+
+export type PhotoComparison={selection:RecordSelection;comparison:Comparison;identityConfirmedAt:string;nameOcr:string;ocrPasses?:OcrPass[];identifiers:ReturnType<typeof extractProductFields>};
+export function PhotoMatch({lang,labelText,nameOcr,ocrPasses,verified,disabled,onInvalidate,onComplete}:{lang:Lang;labelText:string;nameOcr:string;ocrPasses?:OcrPass[];verified:boolean;disabled:boolean;onInvalidate:()=>void;onComplete:(match:PhotoComparison)=>void}){
+ const t=workflowCopy[lang];const fields=useMemo(()=>mergeOcrFields(ocrPasses?.length?ocrPasses:[{kind:'original',text:nameOcr,ms:0}]),[nameOcr,ocrPasses]);
+ const seed=useMemo<SearchSeed>(()=>({name:fields.names.find(n=>n.explicit||n.contextual)?.value??'',language:fields.names[0]?.language??'ko',importer:fields.importer}),[fields]);
+ const [quantity,setQuantity]=useState(fields.quantity??'');const [chosenSeed,setChosenSeed]=useState<SearchSeed>();const [selection,setSelection]=useState<RecordSelection>();const [sameProduct,setSameProduct]=useState(false);const panel=useRef<HTMLDivElement>(null);
+ const quantityReading=fields.quantityRecognition;const quantityBlocked=quantityReading?.status==='conflict'&&!parseQuantity(quantity);const qt=quantityCopy[lang];
+ useEffect(()=>{setQuantity(fields.quantity??'');setChosenSeed(undefined);setSelection(undefined);setSameProduct(false);},[nameOcr]);
+ useEffect(()=>{setSameProduct(false);},[labelText,verified]);
+ function clear(){setSelection(undefined);setSameProduct(false);onInvalidate();}
+ return <section className="photo-match"><h2>{t.title}</h2><p className="small muted">{t.intro}</p><p className="small">{t.nameWarning}</p>
+  {fields.names.length?<div className="name-candidates"><h3>{t.suggestions}</h3>{fields.names.map(n=><button className="secondary" key={n.value} disabled={disabled} onClick={()=>{clear();setChosenSeed({name:n.value,language:n.language,importer:fields.importer});}}><strong>{n.value}</strong><small>{n.explicit?t.explicit:n.contextual?recognitionCopy[lang].contextual:t.suggested}</small></button>)}</div>:<p className="data-warning">{t.noName}</p>}
+  {nameOcr&&<details><summary>{t.raw}</summary>{ocrPasses?.length?ocrPasses.map((p,i)=><div key={i}><strong>{i+1} · {p.kind}</strong><pre className="raw-label">{p.text}</pre></div>):<pre className="raw-label">{nameOcr}</pre>}</details>}
+  <label className="quantity-review">{t.quantity}<input value={quantity} maxLength={100} disabled={disabled} onChange={e=>{setQuantity(e.target.value);setSameProduct(false);onInvalidate();}}/><small>{t.quantityHelp}</small></label>
+  {quantityReading&&<div className="quantity-evidence"><p className="small data-warning" role="status">{qt[quantityReading.status]}</p>{quantityReading.suggestions.length>0&&<div className="search-refinements">{quantityReading.suggestions.map(value=><button className="secondary" key={value} disabled={disabled} onClick={()=>{setQuantity(value);setSameProduct(false);onInvalidate();}}>{value} · {qt.choose}</button>)}</div>}{quantityReading.evidence.length>0&&<details><summary>{qt.evidence}</summary>{quantityReading.evidence.map((e,i)=><p className="small raw-label" key={i}>{e.raw} → {e.value}{e.unit} ({e.pass})</p>)}</details>}</div>}
+  <MfdsSearch lang={lang} seed={chosenSeed??seed} assist={{quantity}} disabled={disabled} onInvalidate={clear} onSelect={next=>{setSelection(next);setSameProduct(false);onInvalidate();setTimeout(()=>panel.current?.focus(),0);}}/>
+  {selection&&<div className="match-selection" ref={panel} tabIndex={-1}><h3>{t.selected}</h3><strong>{selection.record.name||selection.record.englishName}</strong><dl><dt>{t.recordCountry}</dt><dd>{selection.record.manufacturingCountry||t.missing}</dd><dt>{lang==='ko'?'수입업체 / 제조업소':lang==='ja'?'輸入業者 / 製造業者':lang==='zh'?'进口商 / 生产商':'Importer / manufacturer'}</dt><dd>{selection.record.importer||t.missing}<br/>{selection.record.manufacturer||t.missing}</dd><dt>{lang==='ko'?'유통기한':lang==='ja'?'賞味期限':lang==='zh'?'保质期':'Expiry'}</dt><dd>{selection.record.expiry||[selection.record.expiryStart,selection.record.expiryEnd].filter(Boolean).join(' – ')||t.missing}</dd></dl>
+   <p className="small muted">{t.scope}</p><IdentityTable selection={selection} fields={{...fields,quantity}} lang={lang}/>
+   {quantityComparison(quantity,selection.record)==='different'&&<p className="error" role="alert">{t.differentProduct}</p>}<label className="confirm"><input type="checkbox" checked={sameProduct} disabled={!verified||disabled||quantityBlocked||quantityComparison(quantity,selection.record)==='different'} onChange={e=>{setSameProduct(e.target.checked);onInvalidate();}}/><span>{t.identity}</span></label>{!verified&&<p className="small muted">{t.reviewFirst}</p>}<div className="action-row"><button className="primary" disabled={!sameProduct||!verified||disabled||quantityBlocked||quantityComparison(quantity,selection.record)==='different'} onClick={()=>onComplete({selection,comparison:compareProductOrigin(labelText,selection.record,true,quantity),identityConfirmedAt:new Date().toISOString(),nameOcr,ocrPasses,identifiers:{...fields,quantity}})}>{t.finish}</button><button className="quiet" onClick={clear}>{t.clearSelection}</button></div>
+  </div>}
+ </section>;
+}
+function IdentityTable({selection,fields,lang}:{selection:RecordSelection;fields:ReturnType<typeof extractProductFields>;lang:Lang}){
+ const words={ko:{name:'제품명',importer:'수입업체',manufacturer:'제조업소',expiry:'유통기한',title:'문구 자동 대조 · 동일 제품 확정은 직접 확인',observed:'사진 OCR / 확인한 검색어',record:'식약처 자료',same:'문구 일치',partial:'일부 문구 일치',different:'문구 다름 · 확인 필요',missing:'대조 정보 부족'},en:{name:'Name',importer:'Importer',manufacturer:'Manufacturer',expiry:'Expiry',title:'Text comparison · confirm product identity yourself',observed:'Photo OCR / reviewed search name',record:'MFDS record',same:'Text matches',partial:'Partial text match',different:'Text differs · review',missing:'Insufficient text'},ja:{name:'製品名',importer:'輸入業者',manufacturer:'製造業者',expiry:'賞味期限',title:'文字の自動照合 · 同じ製品か直接確認',observed:'写真OCR / 確認した検索語',record:'食薬処資料',same:'文字一致',partial:'一部一致',different:'文字が異なる · 要確認',missing:'情報不足'},zh:{name:'产品名',importer:'进口商',manufacturer:'生产商',expiry:'保质期',title:'自动文字核对 · 请亲自确认是否同一产品',observed:'照片OCR / 已确认搜索词',record:'食药处资料',same:'文字一致',partial:'部分文字一致',different:'文字不同 · 需核对',missing:'信息不足'}}[lang];
+ const r=selection.record;
+ const recordedQuantity=recordQuantity(r);
+ const rows=[[words.name,selection.observedName||selection.query.name,selection.query.language==='ko'?r.name:r.englishName],[workflowCopy[lang].quantity,fields.quantity??'',recordedQuantity],[words.importer,selection.observedImporter??(selection.query.importer||fields.importer),r.importer],[words.manufacturer,fields.manufacturer,r.manufacturer],[words.expiry,fields.expiry,r.expiry||[r.expiryStart,r.expiryEnd].filter(Boolean).join(' – ')]];
+ return <div className="identity-table"><h4>{words.title}</h4>{rows.map(([key,observed,expected])=><div key={key}><strong>{key} · {words[compareIdentifier(observed,expected)]}</strong><p><small>{words.observed}</small>{observed||'—'}</p><p><small>{words.record}</small>{expected||'—'}</p></div>)}</div>;
+}
+export function ComparisonEvidence({match,lang}:{match:PhotoComparison;lang:Lang}){
+ const t=workflowCopy[lang];const {selection,comparison}=match;
+ const regions=(codes:string[])=>codes.map(c=>new Intl.DisplayNames([lang],{type:'region'}).of(c)||c).join(' · ');
+ return <div className="comparison-evidence"><h3>{t.resultTitle}</h3><p>{t[comparison.basis]}</p><dl><dt>{t.labelCountry}</dt><dd>{comparison.label.status!=='unknown'&&comparison.label.countries.length?regions(comparison.label.countries):t.missing}</dd><dt>{t.recordCountry}</dt><dd>{selection.record.manufacturingCountry||t.missing}</dd><dt>{t.query}</dt><dd>{selection.query.name}</dd><dt>{t.retrieved}</dt><dd>{new Date(selection.retrievedAt).toLocaleString(lang)}</dd></dl><p className="small">{selection.record.name} · {selection.record.importer} · {selection.record.manufacturer}</p><a href={selection.source} target="_blank" rel="noopener noreferrer">{t.source} ↗</a></div>;
+}

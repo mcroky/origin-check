@@ -1,0 +1,12 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import path from 'node:path';
+const files=await fs.readdir('dist',{recursive:true});
+assert(!files.some(f=>/(^|[\\/])(validation|server|\.env[^\\/]*)([\\/]|$)/.test(f)),'Private files in dist');
+const html=await fs.readFile('dist/index.html','utf8');
+assert(html.includes('/origin-check/assets/'),'Wrong Pages base');
+for(const file of ['sw.js','manifest.webmanifest','credits.html','dependency-notices.txt','updates.json','samples/label.jpg','samples/china.jpg','ocr/worker.min.js','ocr/lang/kor.traineddata.gz','ocr/core/tesseract-core-lstm.wasm'])assert((await fs.stat(path.join('dist',file))).size>0,`Missing ${file}`);
+const scripts=await Promise.all(files.filter(f=>f.startsWith('assets')&&f.endsWith('.js')).map(f=>fs.readFile(path.join('dist',f),'utf8')));
+assert(scripts.join('').includes('공개 체험판'),'Missing public-preview notice');
+assert(!scripts.join('').includes('/api/mfds/status'),'Static preview still requests API status');
+console.log(`Pages artifact checked: ${files.length} entries; subpath, OCR, notices, no private folders or API status requests.`);
