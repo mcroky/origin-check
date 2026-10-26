@@ -34,3 +34,11 @@ deploymentCopy.en.update="v0.11.1 · 2026-10-26\nMobile guidance and source deta
 deploymentCopy.ja.update="v0.11.1 · 2026-10-26\nモバイルの説明と原文を折りたたみ、操作と主要な結果を優先。カメラの再生・映像を確認し、再生・切替・標準カメラ撮影を選べます。小さなバーコード写真の拡大・余白・明暗補正を追加。\n\n"+deploymentCopy.ja.update;
 
 deploymentCopy.zh.update="v0.11.1 · 2026-10-26\n移动端折叠说明与原文，优先显示操作和主要结果。启动时确认相机播放及画面，提供播放、切换与系统相机拍摄。小尺寸条形码照片新增放大、留白和对比度处理。\n\n"+deploymentCopy.zh.update;
+
+deploymentCopy.ko.update="v0.11.2 · 2026-10-26\n이름으로 구분 가능한 메인 후면 카메라를 우선 선택하고 직접 카메라를 고를 수 있게 했습니다. 1·2·3배 화면 확대와 실제 판독이 같은 중앙 영역을 사용합니다. 화면 확대는 광학 줌이나 초점 개선을 보장하지 않습니다.\n\n"+deploymentCopy.ko.update;
+
+deploymentCopy.en.update="v0.11.2 · 2026-10-26\nPrefer a recognizable rear main camera and allow manual camera selection. The 1×/2×/3× view and barcode decoding use the same central frame region. View enlargement does not guarantee optical zoom or better focus.\n\n"+deploymentCopy.en.update;
+
+deploymentCopy.ja.update="v0.11.2 · 2026-10-26\n名前から識別できる背面メインカメラを優先し、カメラを手動選択できます。1・2・3倍の画面拡大と読取に同じ中央領域を使います。光学ズームやピント改善を保証しません。\n\n"+deploymentCopy.ja.update;
+
+deploymentCopy.zh.update="v0.11.2 · 2026-10-26\n优先选择名称可识别的后置主摄，并可手动选择相机。1、2、3倍画面放大和条码读取使用相同中央区域，不保证光学变焦或对焦改善。\n\n"+deploymentCopy.zh.update;

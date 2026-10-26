@@ -6,6 +6,13 @@ import {BarcodeFormat,DecodeHintType,MultiFormatOneDReader,RGBLuminanceSource,Hy
 import {decodedBarcode,retailFormats} from '../src/barcodeDecoder.ts';
 import {ScanSession} from '../src/scanSession.ts';
 import {enhanceLabel,type Pixels} from '../src/labelImage';
+import {frameCrop} from '../src/scanView';
+test('a centered barcode remains readable in the actual pixels of a zoomed scan frame',async()=>{
+ const code='8801062633692';const png=await bwipjs.toBuffer({bcid:'ean13',text:code,scale:2,height:20,includetext:false,paddingwidth:14,paddingheight:8});const info=await sharp(png).metadata();
+ const frame=await sharp({create:{width:800,height:600,channels:3,background:'white'}}).composite([{input:png,left:Math.floor((800-info.width!)/2),top:Math.floor((600-info.height!)/2)}]).png().toBuffer();
+ const crop=frameCrop(800,600,2);const {data,info:out}=await sharp(frame).extract({left:crop.x,top:crop.y,width:crop.width,height:crop.height}).resize(crop.outputWidth,crop.outputHeight).greyscale().raw().toBuffer({resolveWithObject:true});
+ const hints=new Map<DecodeHintType,unknown>([[DecodeHintType.POSSIBLE_FORMATS,retailFormats],[DecodeHintType.TRY_HARDER,true]]);const result=new MultiFormatOneDReader(hints).decode(new BinaryBitmap(new HybridBinarizer(new RGBLuminanceSource(new Uint8ClampedArray(data),out.width,out.height))),hints);assert.equal(decodedBarcode(result),code);
+});
 test('small synthetic photo with narrow margins decodes after enlargement and quiet-zone padding',async()=>{
  const code='8801062633692';
  const png=await bwipjs.toBuffer({bcid:'ean13',text:code,scale:3,height:22,includetext:true,paddingwidth:2,paddingheight:2});

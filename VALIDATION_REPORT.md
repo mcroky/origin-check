@@ -1,5 +1,12 @@
 # 라벨 인식·제품 데이터 확보 검증
 
+## v0.11.2 · 2026-10-26
+
+전체 회귀 테스트 224개가 통과했다. 모의 객체와 합성 이미지 검증이며 실기기 성공률을 의미하지 않는다.
+
+후면 메인·초광각·전면·불명확 이름의 선택, 목록 조회 실패·지연, 렌즈 교체 전 기존 트랙 종료, 확대 영역의 중앙 좌표·비율·최대 크기를 검증했다. 표시 캔버스로 확대된 원본 영역이 그려지는지 확인하고 합성 바코드의 실제 확대 픽셀을 설치된 판독기로 읽었다. 화면은 최대 1600px·약 15fps로 갱신하고 판독은 약 5회/초 실행한다. 실제 기기의 처리량 측정값은 아니다. 브라우저 제어는 Windows sandbox 초기화 오류로 실행하지 못했으며 Android 카메라·실제 렌즈·초점·성능 검증은 미실시다.
+
+
 ## v0.11.1 · 2026-10-26
 
 전체 회귀 테스트 216개, TypeScript 검사, 로컬 모드·Pages 모드 빌드와 배포 파일 검사를 통과했다. 이는 OCR 정확도나 실기기 성공률 수치가 아니다.
@@ -185,3 +192,5 @@ Open Food Facts 운영 API에서 한국 판매 태그가 있는 식품 30개를 
 5. 공개 출시 전에 데이터 정정·출처 갱신·라이선스 표시 검토. Android SDK·JDK를 준비한 뒤 패키징 및 Play 검증 진행.
 
 바코드 접두사는 제조국 증거로 사용하지 않는다. 근거: [GS1의 GTIN 설명](https://www.gs1uk.org/knowledge-hub/product-identification/what-is-a-gtin). OFF 데이터 구조·이용 기준은 [공식 API 문서](https://openfoodfacts.github.io/openfoodfacts-server/api/)를 참고했다.
+
+카메라 API 참고: [권한과 기기 목록](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices). 이름으로 렌즈를 고르는 규칙은 앱의 휴리스틱이며 브라우저 표준이 보장하는 물리적 렌즈 분류가 아니다.

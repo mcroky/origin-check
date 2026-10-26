@@ -1,4 +1,4 @@
-Bundled dependency license notices · v0.11.1
+Bundled dependency license notices · v0.11.2
 Includes build dependencies for completeness.
 
 
