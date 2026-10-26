@@ -1,0 +1,13 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const root=process.cwd(),destination=path.resolve(root,'.publish/origin-check-api');
+if(!(await fs.stat(path.join(destination,'vite.config.ts'))).isFile())throw Error('Prepare the Sites Vinext starter first');
+for(const directory of ['core/server','core/src'])await fs.mkdir(path.join(destination,directory),{recursive:true});
+for(const name of ['mfds','domestic','originQuota','originApi'])await fs.copyFile(`server/${name}.ts`,path.join(destination,`core/server/${name}.ts`));
+for(const name of ['origin','officialTypes'])await fs.copyFile(`src/${name}.ts`,path.join(destination,`core/src/${name}.ts`));
+await fs.copyFile('hosting/worker.ts',path.join(destination,'worker/index.ts'));await fs.copyFile('hosting/schema.ts',path.join(destination,'db/schema.ts'));await fs.copyFile('hosting/manifest.json',path.join(destination,'.openai/hosting.json'));
+await fs.writeFile(path.join(destination,'AGENTS.md'),'# Origin Check API\n\n개발 기준: E:/개인프로젝트/Roky Studio/PROJECT_BASELINE.md, E:/개인프로젝트/Roky Studio/docs/GAMEDEV_SKILLS_GUIDE.md, E:/개인프로젝트/Roky Studio/docs/GOOGLE_PLAY_READINESS.md. 서버 전용 인증키는 Sites 비밀 환경변수로만 설정한다. 사진과 영상은 받지 않는다.\n');
+await fs.writeFile(path.join(destination,'app/page.tsx'),`export default function Home(){return <main style={{maxWidth:680,margin:'3rem auto',padding:24,fontFamily:'system-ui'}}><h1>Origin Check API</h1><p>국내 바코드와 식약처 표시자료를 대조하는 읽기 전용 서버입니다.</p><p>등록 자료의 제조국과 원료 원산지는 구분하며 실제 라벨·로트의 진위를 보장하지 않습니다.</p><a href="https://mcroky.github.io/origin-check/">앱으로 돌아가기</a></main>;}\n`);
+await fs.writeFile(path.join(destination,'app/layout.tsx'),`import type {Metadata} from 'next';\nexport const metadata:Metadata={title:'Origin Check API · Roky Studio',description:'국내 바코드·식약처 표시자료 대조 서버'};\nexport default function Layout({children}:{children:React.ReactNode}){return <html lang="ko"><body>{children}</body></html>;}\n`);
+const envTypes=path.join(destination,'cloudflare-env.d.ts');if(!(await fs.readFile(envTypes,'utf8')).includes('FOODSAFETY_SERVICE_KEY'))await fs.appendFile(envTypes,'\ndeclare namespace Cloudflare { interface Env { MFDS_SERVICE_KEY?:string; FOODSAFETY_SERVICE_KEY?:string; } }\n');
+console.log('Prepared API sources and quota schema without environment values.');

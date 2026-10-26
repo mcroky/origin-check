@@ -111,3 +111,11 @@ messages.en.privacyBody+="\n\nThe identifier and name of a manually selected cam
 messages.ja.privacyBody+="\n\n手動で選んだカメラの識別値と名前はこのブラウザだけに保存します。カメラ選択で自動に戻すと削除します。カメラ一覧や選択情報をサーバーに送信しません。";
 
 messages.zh.privacyBody+="\n\n手动选择的相机标识和名称仅保存在此浏览器中，改回自动选择即可删除。相机列表和选择信息不会发送至服务器。";
+
+messages.ko.privacyBody+="\n\n공식 조회 시 바코드·품목번호·제품명과 선택한 수입업체명을 Origin Check 조회 서버로 전송하며, 서버가 식품안전나라·식약처를 조회합니다. 사진·영상·OCR 원문은 보내지 않습니다. 응답은 서버 메모리에 최대 5분 재사용하며, 공유 호출량 제한에는 시간대별 해시 식별자와 회수만 저장하고 만료 후 주기적으로 삭제합니다. 인증키는 서버의 비밀 설정에만 보관합니다.";
+
+messages.en.privacyBody+="\n\nOfficial lookup sends barcode, report number, product name and optional importer to the Origin Check server, which queries Food Safety Korea and MFDS. Photos, video and OCR text are not sent. Server memory may reuse responses for up to 5 minutes. Shared limits store time-bucketed hashes and counts, with periodic expiry cleanup. API keys remain server secrets.";
+
+messages.ja.privacyBody+="\n\n公式検索時に番号・品目番号・製品名・任意の輸入業者名をOrigin Checkサーバーへ送り、サーバーが食薬処等を照会します。写真・映像・OCR原文は送信しません。応答は最大5分メモリで再利用。共有上限は時間帯別ハッシュと回数だけを保存し、期限後に定期削除します。認証キーはサーバーの秘密設定です。";
+
+messages.zh.privacyBody+="\n\n官方查询向Origin Check服务器发送条码、品目编号、产品名及可选进口商名，由服务器查询食药处等资料。不发送照片、视频或OCR原文。响应可在内存复用最多5分钟；共享限额只保存按时段变化的哈希和次数，并定期清理过期记录。密钥仅存于服务器秘密配置。";

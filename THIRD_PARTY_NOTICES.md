@@ -56,3 +56,7 @@
 - 모델 다운로드 경로는 `scripts/prepare-ocr.mjs`, 파일 해시는 `validation/ocr-assets.json`에 기록합니다.
 - React·Vite·TypeScript·Lucide 등 패키지는 각 배포본의 라이선스를 따릅니다. 버전은 pnpm-lock.yaml에 기록되어 있습니다.
 - 배포하는 OCR 런타임의 동봉 라이선스 파일은 `public/ocr/licenses/`에 보관합니다.
+
+## 식품안전나라 공식 조회 자료
+
+바코드 식별: [C005](https://www.foodsafetykorea.go.kr/api/openApiInfo.do?svc_no=C005), 원재료: [C002](https://www.foodsafetykorea.go.kr/api/openApiInfo.do?svc_no=C002). 각 공개 API의 출처표시 조건과 원문·조회일을 연결한다. 원료명은 원산지가 아니며 등록자료는 현재 포장·로트의 인증이 아니다. 수입식품은 식약처 제품별·수입신고별 한글표시사항을 별도 출처로 표시한다.

@@ -50,3 +50,23 @@ deploymentCopy.en.update="v0.11.3 · 2026-10-26\nPrefer a primary rear candidate
 deploymentCopy.ja.update="v0.11.3 · 2026-10-26\n機種別の例外を使わず背面メイン候補を優先。メイン・通常広角名を優先し、番号型の背面名は最初の適切な候補を使用します。手動選択をこのブラウザに保存し、自動に戻すと削除。物理レンズの種類はブラウザ情報だけでは常に確定できません。\n\n"+deploymentCopy.ja.update;
 
 deploymentCopy.zh.update="v0.11.3 · 2026-10-26\n不采用机型专用规则，优先后置主摄候选。先选主摄或普通广角名称，再选列表中首个合适的编号后置相机。手动选择仅在此浏览器保存，切回自动即可删除。浏览器信息并不总能确定物理镜头类型。\n\n"+deploymentCopy.zh.update;
+
+deploymentCopy.ko.body="바코드로 국내 품목·원료 자료와 수입식품 신고 후보를 조회합니다. 등록 제조국과 원료 원산지는 구분하며 국가 정보가 없으면 확인 불가로 남깁니다. 사진 OCR도 기기에서 사용할 수 있습니다.";
+deploymentCopy.ko.api="바코드 탭에서 국내 바코드·수입 신고자료를 조회할 수 있습니다. 이 사진·제품명 전용 조회 화면은 로컬 서버용입니다.";
+deploymentCopy.ko.privacy="공식 조회 시 바코드·품목번호·제품명과 선택한 수입업체명을 Origin Check 조회 서버로 전송하며, 서버가 식품안전나라·식약처를 조회합니다. 사진·영상·OCR 원문은 보내지 않습니다. 응답은 서버 메모리에 최대 5분 재사용하며, 공유 호출량 제한에는 시간대별 해시 식별자와 회수만 저장하고 만료 후 주기적으로 삭제합니다. 인증키는 서버의 비밀 설정에만 보관합니다.";
+deploymentCopy.ko.update="v0.12.0 · 2026-10-26\n국내 바코드 C005와 원료 C002를 품목보고번호로 연결하고, 수입식품의 두 신고자료 API를 별도 후보로 대조합니다. 제조국과 원료 문구를 분리하고 보유 제품의 라벨·로트 미대조 범위를 표시합니다. 조회 키는 배포 서버 비밀 환경변수로 관리합니다.\n\n"+deploymentCopy.ko.update;
+
+deploymentCopy.en.body="Look up Korean product and ingredient records and import declaration candidates by barcode. Manufacture and ingredient origins stay separate; missing country data stays unknown. Photo OCR also runs on-device.";
+deploymentCopy.en.api="Use the Barcode tab for Korean barcode and import declaration lookup. This photo/name-specific search screen uses the local server.";
+deploymentCopy.en.privacy="Official lookup sends barcode, report number, product name and optional importer to the Origin Check server, which queries Food Safety Korea and MFDS. Photos, video and OCR text are not sent. Server memory may reuse responses for up to 5 minutes. Shared limits store time-bucketed hashes and counts, with periodic expiry cleanup. API keys remain server secrets.";
+deploymentCopy.en.update="v0.12.0 · 2026-10-26\nC005 barcode identity joins C002 ingredients by report number. Two import declaration datasets remain separate candidates. Manufacture and ingredient wording retain separate evidence and current label/batch limits. Credentials are hosted server secrets.\n\n"+deploymentCopy.en.update;
+
+deploymentCopy.ja.body="バーコードから国内品目・原料資料と輸入申告候補を検索。製造国と原料産地を分け、国の情報がなければ不明のままにします。写真OCRは端末内で実行します。";
+deploymentCopy.ja.api="バーコードタブで国内番号・輸入申告を検索できます。この写真・名前専用画面はローカルサーバー用です。";
+deploymentCopy.ja.privacy="公式検索時に番号・品目番号・製品名・任意の輸入業者名をOrigin Checkサーバーへ送り、サーバーが食薬処等を照会します。写真・映像・OCR原文は送信しません。応答は最大5分メモリで再利用。共有上限は時間帯別ハッシュと回数だけを保存し、期限後に定期削除します。認証キーはサーバーの秘密設定です。";
+deploymentCopy.ja.update="v0.12.0 · 2026-10-26\nC005の番号とC002の原料を品目報告番号で連携。二つの輸入申告資料は別候補として照合し、製造国と原料の根拠を分離します。手元の包装・ロットとの未照合範囲を表示。キーはサーバー秘密設定です。\n\n"+deploymentCopy.ja.update;
+
+deploymentCopy.zh.body="通过条码查询国内品目、原料及进口申报候选。制造国与原料产地分开，缺少国家资料时保持未知。照片OCR在设备内运行。";
+deploymentCopy.zh.api="可在条码页查询国内条码和进口申报，此照片与名称专用页面使用本地服务器。";
+deploymentCopy.zh.privacy="官方查询向Origin Check服务器发送条码、品目编号、产品名及可选进口商名，由服务器查询食药处等资料。不发送照片、视频或OCR原文。响应可在内存复用最多5分钟；共享限额只保存按时段变化的哈希和次数，并定期清理过期记录。密钥仅存于服务器秘密配置。";
+deploymentCopy.zh.update="v0.12.0 · 2026-10-26\n按品目报告编号关联C005条码和C002原料，两个进口申报资料保持独立候选。制造国与原料依据分别保留，并注明未核对实物包装及批次。认证密钥由部署服务器保密保存。\n\n"+deploymentCopy.zh.update;

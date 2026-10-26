@@ -52,7 +52,7 @@ async function limitedText(response:Response){
  if(!response.body)throw new ApiError('INVALID_RESPONSE');
  const reader=response.body.getReader();const parts:Uint8Array[]=[];let bytes=0;
  try{while(true){const {done,value}=await reader.read();if(done)break;bytes+=value.length;if(bytes>2_000_000){await reader.cancel();throw new ApiError('RESPONSE_TOO_LARGE');}parts.push(value);}}finally{reader.releaseLock();}
- return Buffer.concat(parts).toString('utf8');
+ const output=new Uint8Array(bytes);let offset=0;for(const part of parts){output.set(part,offset);offset+=part.length;}return new TextDecoder().decode(output);
 }
 export function createMfdsClient(key:string,fetcher:typeof fetch=fetch,now=Date.now){
  const cache=new Map<string,{at:number;result:SearchResult;timer:ReturnType<typeof setTimeout>}>();let active=0;let last=-Infinity;
@@ -62,17 +62,17 @@ export function createMfdsClient(key:string,fetcher:typeof fetch=fetch,now=Date.
   if(active>=2||now()-last<1000)throw new ApiError('RATE_LIMITED',429);
   const url=buildUrl(key,input);last=now();active++;const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),12_000);
   try{
-   const response=await fetcher(url,{headers:{Accept:'application/json'},redirect:'error',signal:controller.signal});
+   const response=await fetcher(url.toString(),{headers:{Accept:'application/json','User-Agent':'RokyOriginCheck/0.12 (+https://mcroky.github.io/origin-check/)'},redirect:'manual',signal:controller.signal});
    if(response.status===429)throw new ApiError('UPSTREAM_QUOTA',429);
    if(response.status===401||response.status===403)throw new ApiError('AUTH_FAILED',503);
-   if(!response.ok)throw new ApiError('UPSTREAM_ERROR');
+   if(!response.ok)throw new ApiError(`UPSTREAM_HTTP_${response.status}`);
    const result=parseResponse(await limitedText(response),input.page,input.dataset);
    // Defensive redaction if an upstream field unexpectedly echoes the credential.
    const encoded=JSON.stringify(result);const secret=normalizeKey(key);
    if([secret,encodeURIComponent(secret)].some(s=>s&&encoded.includes(s)))throw new ApiError('INVALID_RESPONSE');
    if(hit)clearTimeout(hit.timer);
    if(cache.size>=100){const oldest=cache.keys().next().value!;clearTimeout(cache.get(oldest)!.timer);cache.delete(oldest);}
-   const expiry=setTimeout(()=>cache.delete(id),300_000);expiry.unref();cache.set(id,{at:now(),result,timer:expiry});return result;
+   const expiry=setTimeout(()=>cache.delete(id),300_000);(expiry as ReturnType<typeof setTimeout>&{unref?:()=>void}).unref?.();cache.set(id,{at:now(),result,timer:expiry});return result;
   }catch(error){if(error instanceof ApiError)throw error;throw new ApiError(controller.signal.aborted?'TIMEOUT':'UPSTREAM_UNAVAILABLE');}
   finally{clearTimeout(timer);active--;}
  }};
