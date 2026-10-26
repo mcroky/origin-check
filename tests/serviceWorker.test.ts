@@ -5,7 +5,7 @@ import fs from 'node:fs/promises';
 const source=await fs.readFile(new URL('../public/sw.js',import.meta.url),'utf8');
 function setup(){
  const handlers=new Map<string,(event:any)=>void>();const fetches:any[]=[];const removed:string[]=[];const writes:any[]=[];let claimed=0,skipped=0;
- const scope='https://example.test/origin-check/';const current=`origin-prototype-/origin-check/-v0.11.0`;
+ const scope='https://example.test/origin-check/';const current=`origin-prototype-/origin-check/-v0.11.1`;
  const old='origin-prototype-/origin-check/-v0.9.1',other='origin-prototype-/another-app/-v0.9.1';
  const cache={addAll:async()=>{},put:async(...args:any[])=>{writes.push(args);},match:async()=>undefined};
  const self={registration:{scope},addEventListener:(name:string,handler:any)=>handlers.set(name,handler),skipWaiting:async()=>{skipped++;},clients:{claim:async()=>{claimed++;}}};

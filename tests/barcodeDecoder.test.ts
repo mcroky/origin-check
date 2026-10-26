@@ -5,6 +5,15 @@ import sharp from 'sharp';
 import {BarcodeFormat,DecodeHintType,MultiFormatOneDReader,RGBLuminanceSource,HybridBinarizer,BinaryBitmap} from '@zxing/library';
 import {decodedBarcode,retailFormats} from '../src/barcodeDecoder.ts';
 import {ScanSession} from '../src/scanSession.ts';
+import {enhanceLabel,type Pixels} from '../src/labelImage';
+test('small synthetic photo with narrow margins decodes after enlargement and quiet-zone padding',async()=>{
+ const code='8801062633692';
+ const png=await bwipjs.toBuffer({bcid:'ean13',text:code,scale:3,height:22,includetext:true,paddingwidth:2,paddingheight:2});
+ const {data,info}=await sharp(png).flatten({background:'white'}).resize({width:150}).blur(.5).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+ const source={data:new Uint8ClampedArray(data),width:info.width,height:info.height};
+ function decode(p:Pixels){const gray=new Uint8ClampedArray(p.width*p.height);for(let i=0;i<gray.length;i++)gray[i]=Math.round(.299*p.data[i*4]+.587*p.data[i*4+1]+.114*p.data[i*4+2]);const hints=new Map<DecodeHintType,unknown>([[DecodeHintType.POSSIBLE_FORMATS,retailFormats],[DecodeHintType.TRY_HARDER,true]]);return decodedBarcode(new MultiFormatOneDReader(hints).decode(new BinaryBitmap(new HybridBinarizer(new RGBLuminanceSource(gray,p.width,p.height))),hints));}
+ assert.throws(()=>decode(source));for(const contrast of [false,true])assert.equal(decode(enhanceLabel(source,contrast)),code);
+});
 for(const [format,code] of [['ean13','8801062633692'],['ean8','96385074'],['upca','036000291452'],['itf14','10012345000017']]){
  test(`actual ${format} barcode pixels decode with the installed scan engine`,async()=>{
   const png=await bwipjs.toBuffer({bcid:format,text:code,scale:3,height:22,includetext:false,paddingwidth:14,paddingheight:8});

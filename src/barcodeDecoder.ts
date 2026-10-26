@@ -1,6 +1,7 @@
 import {BrowserMultiFormatOneDReader} from '@zxing/browser';
 import {BarcodeFormat,DecodeHintType,type Result} from '@zxing/library';
 import {normalizeBarcode} from './productLookup';
+import {enhanceLabel} from './labelImage';
 export const retailFormats=[BarcodeFormat.EAN_13,BarcodeFormat.EAN_8,BarcodeFormat.UPC_A,BarcodeFormat.ITF];
 export function decodedBarcode(result:Pick<Result,'getBarcodeFormat'|'getText'>){
  const format=result.getBarcodeFormat();if(!retailFormats.includes(format))return undefined;
@@ -17,7 +18,14 @@ export async function decodeBarcodePhoto(file:File,signal:AbortSignal){
   for(const angle of [0,90,180,270]){
    if(signal.aborted)throw Error('ABORTED');const swap=angle%180!==0,canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round((swap?image.height:image.width)*scale));canvas.height=Math.max(1,Math.round((swap?image.width:image.height)*scale));
    const context=canvas.getContext('2d')!;context.fillStyle='white';context.fillRect(0,0,canvas.width,canvas.height);context.translate(canvas.width/2,canvas.height/2);context.rotate(angle*Math.PI/180);context.drawImage(image,-image.width*scale/2,-image.height*scale/2,image.width*scale,image.height*scale);
-   try{const code=decodedBarcode(reader.decodeFromCanvas(canvas));if(code)return code;}catch{}finally{canvas.width=canvas.height=1;}
+   try{const code=decodedBarcode(reader.decodeFromCanvas(canvas));if(code)return code;}catch{}
+   const source=context.getImageData(0,0,canvas.width,canvas.height);
+   for(const contrast of [false,true]){
+    if(signal.aborted)throw Error('ABORTED');const pixels=enhanceLabel(source,contrast),enhanced=document.createElement('canvas');enhanced.width=pixels.width;enhanced.height=pixels.height;
+    enhanced.getContext('2d')!.putImageData(new ImageData(new Uint8ClampedArray(pixels.data),pixels.width,pixels.height),0,0);
+    try{const code=decodedBarcode(reader.decodeFromCanvas(enhanced));if(code)return code;}catch{}finally{enhanced.width=enhanced.height=1;}
+    await new Promise<void>(resolve=>setTimeout(resolve,0));
+   }canvas.width=canvas.height=1;
    await new Promise<void>(resolve=>setTimeout(resolve,0));
   }throw Error('NOT_FOUND');
  }finally{image.src='';URL.revokeObjectURL(url);}

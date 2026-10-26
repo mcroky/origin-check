@@ -1,5 +1,10 @@
 # 공개 체험판 배포
 
+## v0.11.1 · 2026-10-26
+
+모바일 안내 접기, 카메라 재생·프레임 확인, 카메라 전환·기본 카메라 촬영과 작은 바코드 사진 보정을 포함한다. 공개 업데이트 피드와 서비스워커 캐시를 같은 버전으로 갱신한다. 기기 영상 검증은 별도이며 브라우저 제어 런타임 초기화 오류로 이번 변경의 화면 조작 검증은 미실시다.
+
+
 - 주소: https://mcroky.github.io/origin-check/
 - 저장소: https://github.com/mcroky/origin-check
 - 스튜디오: https://mcroky.github.io/roky-studio/
