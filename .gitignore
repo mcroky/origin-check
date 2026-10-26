@@ -3,6 +3,7 @@ node_modules/
 .npmrc
 mobile-preview.html
 validation/
+/20??-??-?? *.png
 *.tsbuildinfo
 dist/
 .env*

@@ -38,7 +38,7 @@ export function createOcrJob(src:string,lang:LabelLanguage,progress:(n:number)=>
   });
   if(cancelled){await worker.terminate();throw new Error('cancelled');}
   const passes:OcrPass[]=[];
-  const recognize=async(input:string,kind:OcrPass['kind'],mode:PSM,region?:QuantityRegion)=>{if(cancelled)throw Error('cancelled');phase=passes.length;await worker!.setParameters({tessedit_pageseg_mode:mode,user_defined_dpi:'300'});const start=performance.now();const {data}=await worker!.recognize(input,{}, {blocks:kind==='colour'});passes.push({kind,text:data.text,ms:Math.round(performance.now()-start),...(region?{region,anchorValue:region.anchorValue,quantityContext:true}:{})});return data;};
+  const recognize=async(input:string,kind:OcrPass['kind'],mode:PSM,region?:QuantityRegion)=>{if(cancelled)throw Error('cancelled');phase=passes.length;await worker!.setParameters({tessedit_pageseg_mode:mode,user_defined_dpi:'300'});const start=performance.now();const {data}=await worker!.recognize(input,{}, {blocks:kind==='colour'});passes.push({kind,text:data.text,ms:Math.round(performance.now()-start),confidence:data.confidence,...(region?{region,anchorValue:region.anchorValue,quantityContext:true}:{})});return data;};
   await recognize(src,'original',blockLayout?PSM.SINGLE_BLOCK:PSM.AUTO);
   let enhancementFailed=false;
   if(enhance)try{

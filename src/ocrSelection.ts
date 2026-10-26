@@ -2,7 +2,7 @@ import {extractProductFields,companySearchTerm,type ProductFields,type NameCandi
 import {analyzeOrigin} from './origin';
 import {recoverQuantity,type QuantityRegion} from './quantity';
 import type {TableRow} from './tableImage';
-export type OcrPass={kind:'original'|'colour'|'contrast'|'quantity-word'|'quantity-line'|'table-label'|'table-row';text:string;ms:number;anchorValue?:string;quantityContext?:boolean;region?:QuantityRegion;tableRegion?:TableRow;tableField?:{kind:'name'|'importer'|'manufacturer';label:string;value:string}};
+export type OcrPass={kind:'original'|'colour'|'contrast'|'quantity-word'|'quantity-line'|'table-label'|'table-row';text:string;ms:number;confidence?:number;anchorValue?:string;quantityContext?:boolean;region?:QuantityRegion;tableRegion?:TableRow;tableField?:{kind:'name'|'importer'|'manufacturer';label:string;value:string}};
 const normalized=(s:string)=>s.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]/gu,'');
 function nameQuality(n:NameCandidate){return (n.explicit?10:n.contextual?5:0)+(n.language==='ko'?2:0)-(n.language==='ko'?(n.value.match(/\b[A-Z]{2,5}\b/gu)?.length??0)*2:0);}
 function tableImporter(value:string,passes:OcrPass[]){
@@ -28,5 +28,7 @@ export function chooseOcrText(passes:OcrPass[]){
  const reliable=origins.filter(a=>!a.ambiguous&&a.countries.length===1&&a.status!=='unknown');
  if(new Set(reliable.flatMap(a=>a.countries)).size>1)return passes.map(p=>p.text).join('\n');
  const score=(pass:OcrPass,i:number)=>{const f=extractProductFields(pass.text),a=origins[i];return (!a.ambiguous&&a.countries.length===1&&a.status!=='unknown'?8:0)+(f.names.some(n=>n.explicit)?6:f.names.some(n=>n.contextual)?3:0)+(f.importer?2:0)+(f.manufacturer?1:0);};
- return passes.map((p,i)=>({p,score:score(p,i)})).sort((a,b)=>b.score-a.score)[0].p.text;
+ const confidence=(pass:OcrPass)=>Number.isFinite(pass.confidence)?Math.max(0,Math.min(100,pass.confidence!)):-1;
+ // Confidence only breaks equal extraction scores; country conflicts and negatives above still require review.
+ return passes.map((p,i)=>({p,score:score(p,i)})).sort((a,b)=>b.score-a.score||confidence(b.p)-confidence(a.p))[0].p.text;
 }

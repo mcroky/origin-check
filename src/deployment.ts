@@ -7,3 +7,8 @@ export const deploymentCopy:Record<Lang,{title:string;body:string;api:string;gui
  ja:{title:'公開体験版',body:'端末内OCR・ラベル表示の確認・30製品の標本検索を試せます。食薬処のリアルタイム検索にはサーバーが必要なため、この公開版では利用できません。写真の文字を確認し「表示だけを確認」を選んでください。',api:'公開体験版では食薬処検索を利用できません。写真OCRとラベル表示の確認は利用できます。',guide:'リアルタイム検索の実行方法',credits:'出典・ライセンス',privacy:'公開版は検索語を食薬処に送信しません。アプリとOCRファイルはGitHub Pagesから取得し、GitHubが安全管理のため接続IPを記録する場合があります。',update:'v0.9.0 · 2026年10月25日\nGitHub Pages体験版を公開。端末内OCR・表示確認・標本検索を利用できます。食薬処の実検索はローカルサーバーで実行します。携帯撮影20枚の評価は未実施です。'},
  zh:{title:'公开体验版',body:'可体验设备内OCR、标签标示核对及30种食品样本查询。食药处实时查询需要服务器，本公开版不提供。核对照片文字后请选择“仅检查标签标示”。',api:'本公开体验版不提供食药处实时查询。可使用照片OCR及标签标示核对。',guide:'实时查询运行说明',credits:'来源与许可证',privacy:'公开版不会向食药处发送查询词。应用及OCR文件由GitHub Pages提供，GitHub可能为安全目的记录访问者IP。',update:'v0.9.0 · 2026年10月25日\n发布GitHub Pages体验版，提供设备内OCR、标签核对及样本查询。食药处实时查询需运行本地服务器。尚未开展20张手机实拍照片评估。'}
 };
+
+deploymentCopy.ko.update="v0.9.1 · 2026-10-26\n추출 점수가 같은 OCR 결과는 엔진 신뢰도를 비교해 선택합니다. 작은 글씨의 원료 원산지 문구 누락을 개선했습니다. 원료의 후보 국가를 완제품 제조국이나 실제 사용 원산지로 확정하지 않습니다.\n\n"+deploymentCopy.ko.update;
+deploymentCopy.en.update="v0.9.1 · 2026-10-26\nEqual extraction scores now use OCR confidence to select the text. This recovers ingredient-origin text in a small-print label. Listed ingredient-source possibilities do not establish finished-product manufacture or the actual source used.\n\n"+deploymentCopy.en.update;
+deploymentCopy.ja.update="v0.9.1 · 2026年10月26日\n抽出点数が同じ場合はOCRの信頼度で文字を選択し、小さい文字の原料産地表示の欠落を改善しました。原料の候補国を製品の製造国や実際に使用した産地とは断定しません。\n\n"+deploymentCopy.ja.update;
+deploymentCopy.zh.update="v0.9.1 · 2026年10月26日\n提取分数相同时根据OCR置信度选择文字，改善小字原料产地标示的遗漏。原料候选来源国不代表成品制造国或实际使用的产地。\n\n"+deploymentCopy.zh.update;

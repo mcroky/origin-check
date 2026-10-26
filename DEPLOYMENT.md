@@ -3,7 +3,7 @@
 - 주소: https://mcroky.github.io/origin-check/
 - 저장소: https://github.com/mcroky/origin-check
 - 스튜디오: https://mcroky.github.io/roky-studio/
-- 버전: 0.9.0 / 2026-10-25
+- 버전: 0.9.1 / 2026-10-26 (첫 공개 0.9.0 / 2026-10-25)
 
 GitHub Pages는 정적 호스팅입니다. `pnpm build:pages`는 `/origin-check/` 경로에 맞춰 빌드하고, 식약처 상태·검색 요청과 조회 입력 UI를 제거한 공개 체험판을 만듭니다. 사진 OCR·라벨 원문 검토·국가 표시 분석·JSON 내려받기·30개 표본 검색을 제공합니다. 화면 상단과 조회 영역에 제한을 네 언어로 표시합니다.
 
