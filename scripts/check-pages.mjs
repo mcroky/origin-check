@@ -13,5 +13,8 @@ const pkg=JSON.parse(await fs.readFile('package.json','utf8'));const releases=JS
 assert.equal(releases[0].version,pkg.version,'Release metadata version differs from app');
 assert((await fs.readFile('dist/sw.js','utf8')).includes(`v${pkg.version}`),'Worker cache version differs from app');
 assert(scripts.join('').includes('원료 원산지 후보에 중국 포함'),'Missing separate ingredient-origin result');
+assert(files.some(f=>/^assets[\\/]barcodeDecoder-.*\.js$/u.test(f)),'Missing local lazy-loaded barcode decoder');
+assert(scripts.join('').includes('/api/v3.6/product/'),'Missing live product lookup');
+assert(scripts.join('').includes('라벨 촬영으로 확인'),'Missing label-photo continuation');
 assert(!/(?:gh[pousr]_[A-Za-z0-9]{30,}|sk-[A-Za-z0-9]{30,}|serviceKey=[A-Za-z0-9%+/]{40,}|MFDS_SERVICE_KEY\s*=\s*[A-Za-z0-9%+/]{40,})/.test(scripts.join('')),'Potential credential literal in artifact');
 console.log(`Pages artifact checked: ${files.length} entries; subpath, OCR, notices, no private folders or API status requests.`);

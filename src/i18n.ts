@@ -90,3 +90,16 @@ ko.intro='라벨을 읽고 제조국과 원료 원산지 표시를 구분해 확
 en.intro='Read the label and check manufacture and ingredient origins separately.\nA brand’s home country can differ from its factories.';
 ja.intro='ラベルを読み、製造国と原料原産地を分けて確認します。\nブランドの国と製造国は異なる場合があります。';
 zh.intro='读取标签，分别核对制造国和原料原产地。\n品牌所属国家可能与产品制造国不同。';
+
+ko.intro="바코드로 제품을 찾거나 라벨을 찍어 확인하세요.\n제조국과 원료 원산지는 구분해 보여드립니다.";
+ko.privacyBody+="\n\n바코드 스캔 영상·사진은 기기 안에서만 처리하며 업로드하지 않습니다. 제품 조회 시 바코드 번호·화면 언어·앱 식별 정보를 Open Food Facts에 전송합니다. 조회 자료는 현재 탭의 메모리에 최대 5분간 재사용할 수 있으며 새로고침하면 지워집니다. 카메라는 스캔 버튼을 누를 때만 요청하고 중지·탭 이동·페이지 숨김 시 종료합니다. 바코드 조회 결과와 라벨 확인 결과는 별도 출처이며 결과 저장은 직접 선택한 경우에만 파일로 내려받습니다.";
+ko.helpBody="바코드 탭에서 카메라 스캔·사진 선택·번호 입력으로 조회할 수 있습니다. 조회 결과의 제품명과 용량을 실제 제품과 대조하세요. 미등록·자료 부족·조회 실패 시 “라벨 촬영으로 확인”을 눌러 제조국·원료 원산지 표시를 찍고 인식 문구를 검토하세요. 바코드 번호는 사진 원문에 자동 입력하지 않습니다.\n\n"+ko.helpBody;
+en.intro="Find a product by barcode or photograph its label.\nCheck manufacture and ingredient origins separately.";
+en.privacyBody+="\n\nBarcode camera frames and photos are processed on-device and not uploaded. Lookup sends the barcode number, interface language and app identifier to Open Food Facts. Results may be reused in tab memory for up to 5 minutes and are cleared on refresh. Camera access starts only on request and stops on Stop, tab change or page hiding. Barcode records and reviewed label results retain separate sources. Exports are saved only when you choose Download.";
+en.helpBody="Use camera scan, barcode photo or number entry in the Barcode tab. Compare the returned product name and size. If unlisted, incomplete or unavailable, choose Check by photographing the label and review the manufacture and ingredient-origin text. Barcode data is not inserted into label OCR.\n\n"+en.helpBody;
+ja.intro="バーコード検索やラベル撮影で確認します。\n製造国と原料原産地は分けて表示します。";
+ja.privacyBody+="\n\nバーコードの映像・写真は端末内で処理しアップロードしません。検索時に番号・表示言語・アプリ識別情報をOpen Food Factsへ送信します。検索資料はタブのメモリで最大5分再利用し更新時に消えます。カメラはボタン操作時だけ要求し、停止・タブ移動・ページ非表示時に終了します。登録資料とラベル結果は別の出典として扱い、保存は選択時のみです。";
+ja.helpBody="バーコードタブでカメラ・写真・番号入力を利用できます。製品名と容量を実物と照合してください。未登録・資料不足・検索失敗時はラベル撮影へ進み、製造国・原料産地の文字を確認します。DB値はOCR原文に自動入力しません。\n\n"+ja.helpBody;
+zh.intro="通过条形码查找产品，或拍摄标签核对。\n分别显示制造国与原料原产地。";
+zh.privacyBody+="\n\n条形码相机画面和照片在设备内处理，不上传。查询时向Open Food Facts发送号码、界面语言和应用标识。查询资料可在当前标签页内存中复用最多5分钟，刷新后清除。相机仅在点击时请求，停止、切换页签或隐藏页面时关闭。条形码资料与标签结果分别保留来源，仅点击下载时保存文件。";
+zh.helpBody="在条形码页可使用相机、照片或号码查询。请核对产品名称与净含量。未收录、资料不足或查询失败时可拍摄标签并核对制造国及原料产地文字。数据库值不会自动填入OCR原文。\n\n"+zh.helpBody;

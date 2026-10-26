@@ -55,7 +55,7 @@ test('reviewed ingredient result is visible even when manufacture is unknown',()
 });
 test('all four languages render a distinct ingredient result',()=>{
  const analysis=analyzeIngredients('Ingredients: flour (China or Japan)');
- for(const lang of ['ko','en','ja','zh'] as const){const html=renderToStaticMarkup(React.createElement(IngredientResult,{analysis,lang}));assert(html.includes('ingredient-possible'));assert(html.includes('ingredient-title'));}
+ for(const lang of ['ko','en','ja','zh'] as const){const html=renderToStaticMarkup(React.createElement(IngredientResult,{analysis,lang}));assert(html.includes('ingredient-possible'));assert(html.includes('aria-label='));}
 });
 test('untrusted label text is escaped in the result',()=>{
  const line='원료명: 쌀(중국산) <script>alert(1)</script>';

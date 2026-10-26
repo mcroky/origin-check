@@ -17,3 +17,12 @@ deploymentCopy.ko.update="v0.10.0 · 2026-10-26\n원료 원산지를 제조국�
 deploymentCopy.en.update="v0.10.0 · 2026-10-26\nIngredient origin now has a separate result card. Direct China statements, candidate lists and negative or unclear wording are distinguished with reviewed source text. Version and update checks appear at the top.\n\n"+deploymentCopy.en.update;
 deploymentCopy.ja.update="v0.10.0 · 2026年10月26日\n原料原産地を製造国とは別のカードに表示。中国の直接表示・候補一覧・否定や不明な文言を区別し確認した原文を保持します。上部でバージョンと更新を確認できます。\n\n"+deploymentCopy.ja.update;
 deploymentCopy.zh.update="v0.10.0 · 2026年10月26日\n原料原产地与制造国分卡显示，区分中国直接标示、候选列表及否定或不明确文字，并保留已核对原文。顶部可查看版本并检查更新。\n\n"+deploymentCopy.zh.update;
+
+deploymentCopy.ko.update="v0.11.0 · 2026-10-26\n바코드를 카메라·사진·번호로 읽고 Open Food Facts 제품 정보를 실시간 조회합니다. 제조 장소와 원료 원산지를 구분하고 자료가 부족하면 같은 제품의 라벨 촬영으로 이어집니다. 공개 DB 자료는 보유 제품의 현재 라벨·로트와 대조가 필요합니다.\n\n"+deploymentCopy.ko.update;
+deploymentCopy.en.update="v0.11.0 · 2026-10-26\nScan a barcode using camera, photo or number entry and look up live Open Food Facts records. Manufacture and ingredient sources stay separate; insufficient data leads to label photography. Public records still need comparison with the current label and batch.\n\n"+deploymentCopy.en.update;
+deploymentCopy.ja.update="v0.11.0 · 2026年10月26日\nカメラ・写真・番号入力でバーコードを読みOpen Food Factsを実検索。製造場所と原料産地を分け、資料不足時はラベル撮影へ進めます。登録資料と現在の包装・ロットの照合は必要です。\n\n"+deploymentCopy.ja.update;
+deploymentCopy.zh.update="v0.11.0 · 2026年10月26日\n通过相机、照片或号码读取条形码并实时查询Open Food Facts。区分制造地点与原料产地，资料不足时继续拍摄标签。公开资料仍需与当前包装及批次核对。\n\n"+deploymentCopy.zh.update;
+deploymentCopy.ko.body="바코드 실시간 제품 조회·사진 OCR·라벨 표시 확인을 사용할 수 있어요. Open Food Facts 자료가 부족하면 라벨 촬영으로 이어집니다. 식약처 실시간 조회는 별도 서버가 필요하여 이 공개판에서는 제공하지 않습니다.";
+deploymentCopy.en.body="Try live barcode product lookup, on-device OCR and label checks. Missing Open Food Facts data leads to label photography. Live MFDS lookup requires a separate server and is unavailable in this public preview.";
+deploymentCopy.ja.body="バーコードの実検索・端末内OCR・ラベル確認を利用できます。Open Food Factsの資料が不足する場合はラベル撮影へ進めます。食薬処の実検索には別サーバーが必要で、この公開版では利用できません。";
+deploymentCopy.zh.body="可使用条形码实时查询、设备内OCR及标签核对。Open Food Facts资料不足时可继续拍摄标签。食药处实时查询需要独立服务器，本公开版不提供。";

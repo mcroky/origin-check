@@ -1,5 +1,14 @@
 # 외부 자료·라이선스
 
+## 바코드·실시간 제품 조회 (v0.11.0)
+
+- `@zxing/browser` 0.2.1: MIT, https://github.com/zxing-js/browser
+- `@zxing/library` 0.23.0: Apache-2.0, https://github.com/zxing-js/library
+- `bwip-js` 4.11.4: 개발 시 독립적인 바코드 픽셀 생성 검증에만 사용하며 앱 런타임에 포함하지 않습니다. https://github.com/metafloor/bwip-js
+- Open Food Facts API v3.6: https://openfoodfacts.github.io/openfoodfacts-server/api/ — 실시간 제품 자료도 아래 ODbL 1.0 / DbCL 1.0 기준을 따릅니다. 조회 결과는 출처·시각·원문 필드를 보존하며 사용자 제보나 실제 보유 제품 검증으로 취급하지 않습니다.
+- 카메라 프레임·바코드 사진은 외부로 전송하지 않고 번호·화면 언어·앱 식별 정보로 읽기 전용 조회합니다. 공개 DB에 사진을 업로드하거나 자료를 쓰는 기능은 없습니다.
+- 의존성 고지 전문은 `scripts/build-notices.mjs`가 빌드 시 `public/dependency-notices.txt`로 생성합니다.
+
 ## 추가 브랜드 검증 (v0.6.0)
 
 타바스코·이금기·바릴라의 판매처 사진과 인쇄 표시 이미지 5장을 로컬 검증에 추가 사용했습니다. 개별 출처·해시·확인일은 `validation/quantity-brands/manifest.json`에 있습니다. 재배포 허락을 확인하지 못했으며, 타바스코 상세 페이지에는 오뚜기의 저작권·무단 복제 및 배포 금지 표기가 있습니다. 원본·변환본·사진이 포함된 캡처는 로컬 검증에만 보관하고 Git·`public/`·앱 배포물에서 제외합니다. 제조사·판매처의 제휴·인증을 의미하지 않습니다.
