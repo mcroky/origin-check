@@ -42,3 +42,11 @@ deploymentCopy.en.update="v0.11.2 · 2026-10-26\nPrefer a recognizable rear main
 deploymentCopy.ja.update="v0.11.2 · 2026-10-26\n名前から識別できる背面メインカメラを優先し、カメラを手動選択できます。1・2・3倍の画面拡大と読取に同じ中央領域を使います。光学ズームやピント改善を保証しません。\n\n"+deploymentCopy.ja.update;
 
 deploymentCopy.zh.update="v0.11.2 · 2026-10-26\n优先选择名称可识别的后置主摄，并可手动选择相机。1、2、3倍画面放大和条码读取使用相同中央区域，不保证光学变焦或对焦改善。\n\n"+deploymentCopy.zh.update;
+
+deploymentCopy.ko.update="v0.11.3 · 2026-10-26\n기종별 예외 없이 기본 후면 후보를 우선합니다. 메인·일반 광각 이름을 우선하고, 번호형 후면 이름은 목록의 첫 적합 후보를 사용합니다. 직접 선택한 카메라는 이 브라우저에 기억하며 자동 선택으로 되돌리면 삭제됩니다. 실제 물리 렌즈의 종류는 브라우저 정보만으로 항상 확정할 수 없습니다.\n\n"+deploymentCopy.ko.update;
+
+deploymentCopy.en.update="v0.11.3 · 2026-10-26\nPrefer a primary rear candidate without model-specific rules. Main and ordinary wide labels take priority, followed by the first eligible numbered rear camera. Manual camera choices stay in this browser and can be cleared with Auto. Browser metadata does not always establish the physical lens type.\n\n"+deploymentCopy.en.update;
+
+deploymentCopy.ja.update="v0.11.3 · 2026-10-26\n機種別の例外を使わず背面メイン候補を優先。メイン・通常広角名を優先し、番号型の背面名は最初の適切な候補を使用します。手動選択をこのブラウザに保存し、自動に戻すと削除。物理レンズの種類はブラウザ情報だけでは常に確定できません。\n\n"+deploymentCopy.ja.update;
+
+deploymentCopy.zh.update="v0.11.3 · 2026-10-26\n不采用机型专用规则，优先后置主摄候选。先选主摄或普通广角名称，再选列表中首个合适的编号后置相机。手动选择仅在此浏览器保存，切回自动即可删除。浏览器信息并不总能确定物理镜头类型。\n\n"+deploymentCopy.zh.update;

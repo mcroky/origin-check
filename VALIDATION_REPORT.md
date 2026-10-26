@@ -1,5 +1,12 @@
 # 라벨 인식·제품 데이터 확보 검증
 
+## v0.11.3 · 2026-10-26
+
+전체 회귀 테스트 230개가 통과했다. 모의 기기 목록과 저장소 검증이며 실제 기기별 렌즈 선택 성공률은 측정하지 않았다.
+
+번호형 후면 이름에서 기존 보조 후보를 그대로 유지하던 규칙을 수정했다. 카메라 번호 고정 없이 목록 순서를 사용하며 전면·초광각·망원·접사·심도·복합 렌즈 이름 처리와 일반 광각 우선 순위를 검증했다. 카메라 설정의 저장·자동 초기화·저장 차단·손상 자료·ID 변경·동일 이름 중복을 모의 저장소로 검증했다. 실제 휴대폰 목록·렌즈 종류·초점 검증은 미실시이며, 특정 물리 렌즈의 자동 선택 성공을 주장하지 않는다. 직전 작업의 브라우저 제어 런타임은 Windows sandbox 초기화 오류로 실행되지 않았다.
+
+
 ## v0.11.2 · 2026-10-26
 
 전체 회귀 테스트 224개가 통과했다. 모의 객체와 합성 이미지 검증이며 실기기 성공률을 의미하지 않는다.
@@ -194,3 +201,5 @@ Open Food Facts 운영 API에서 한국 판매 태그가 있는 식품 30개를 
 바코드 접두사는 제조국 증거로 사용하지 않는다. 근거: [GS1의 GTIN 설명](https://www.gs1uk.org/knowledge-hub/product-identification/what-is-a-gtin). OFF 데이터 구조·이용 기준은 [공식 API 문서](https://openfoodfacts.github.io/openfoodfacts-server/api/)를 참고했다.
 
 카메라 API 참고: [권한과 기기 목록](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices). 이름으로 렌즈를 고르는 규칙은 앱의 휴리스틱이며 브라우저 표준이 보장하는 물리적 렌즈 분류가 아니다.
+
+카메라 선택 설계 참고: [Android의 렌즈 목록과 기본값 선택](https://developer.android.com/media/camera/camera2/camera-enumeration). 네이티브 Camera2 예제는 웹 API가 제공하지 않는 특성 정보도 사용하므로, 웹에서의 후보 선택은 같은 수준의 렌즈 보장을 뜻하지 않는다.

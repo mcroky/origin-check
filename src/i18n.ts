@@ -103,3 +103,11 @@ ja.helpBody="バーコードタブでカメラ・写真・番号入力を利用�
 zh.intro="通过条形码查找产品，或拍摄标签核对。\n分别显示制造国与原料原产地。";
 zh.privacyBody+="\n\n条形码相机画面和照片在设备内处理，不上传。查询时向Open Food Facts发送号码、界面语言和应用标识。查询资料可在当前标签页内存中复用最多5分钟，刷新后清除。相机仅在点击时请求，停止、切换页签或隐藏页面时关闭。条形码资料与标签结果分别保留来源，仅点击下载时保存文件。";
 zh.helpBody="在条形码页可使用相机、照片或号码查询。请核对产品名称与净含量。未收录、资料不足或查询失败时可拍摄标签并核对制造国及原料产地文字。数据库值不会自动填入OCR原文。\n\n"+zh.helpBody;
+
+messages.ko.privacyBody+="\n\n직접 고른 카메라의 식별값과 이름은 이 브라우저에만 저장됩니다. 카메라 선택에서 자동으로 되돌리면 삭제됩니다. 카메라 목록이나 선택 정보는 서버로 전송하지 않습니다.";
+
+messages.en.privacyBody+="\n\nThe identifier and name of a manually selected camera are saved only in this browser. Select Auto in the camera menu to remove them. Camera lists and preferences are not sent to a server.";
+
+messages.ja.privacyBody+="\n\n手動で選んだカメラの識別値と名前はこのブラウザだけに保存します。カメラ選択で自動に戻すと削除します。カメラ一覧や選択情報をサーバーに送信しません。";
+
+messages.zh.privacyBody+="\n\n手动选择的相机标识和名称仅保存在此浏览器中，改回自动选择即可删除。相机列表和选择信息不会发送至服务器。";

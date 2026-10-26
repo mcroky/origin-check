@@ -1,15 +1,17 @@
 export type CameraChoice=Pick<MediaDeviceInfo,'deviceId'|'label'|'kind'>;
 const front=/front|user|전면|앞면|前面|前置|フロント/i;
 const rear=/back|rear|environment|후면|후방|背面|背部|后置|後置|リア/i;
-const auxiliary=/ultra[\s-]*wide|ultrawide|초광각|울트라|超[広广廣]角|telephoto|망원|望遠|长焦|macro|매크로|微距|depth|깊이/i;
+const auxiliary=/ultra[\s-]*wide|super[\s-]*wide|초광각|울트라|超[広广廣]角|\btele(?:photo)?\b|망원|望[遠远]|长焦|macro|매크로|微距|depth|깊이|fisheye|어안|[鱼魚]眼/i;
 const main=/main|primary|standard|메인|기본|일반|標準|主摄|主攝/i;
-// Labels are hints, not a reliable inventory of physical lenses. Unknown labels retain the browser's choice.
+const normalWide=/(?:^|\s|[-_])wide(?:\s|[-_]|$)|広角|广角|廣角/i;
+const compound=/dual|triple|logical|virtual|multi|듀얼|트리플|双|雙|複合/i;
+// Browser labels are hints. The first eligible rear device is a fallback, not proof of a physical main lens.
 export function preferredRearCamera(devices:CameraChoice[],current:string){
  const candidates=devices.filter(d=>d.kind==='videoinput'&&d.deviceId&&!front.test(d.label)&&rear.test(d.label)&&!auxiliary.test(d.label));
  const explicit=candidates.find(d=>main.test(d.label));if(explicit)return explicit.deviceId;
- const active=devices.find(d=>d.deviceId===current);
- if(active&&auxiliary.test(active.label)&&candidates.length)return candidates[0].deviceId;
- return current;
+ const physical=candidates.filter(d=>!compound.test(d.label));
+ const standard=physical.find(d=>normalWide.test(d.label));
+ return standard?.deviceId??physical[0]?.deviceId??candidates[0]?.deviceId??current;
 }
 export async function cameraChoices(media:Pick<MediaDevices,'enumerateDevices'>,timeoutMs=1500){
  let timer:ReturnType<typeof setTimeout>|undefined;

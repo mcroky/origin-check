@@ -15,6 +15,14 @@ test('ambiguous device labels do not silently replace the browser selection or s
  assert.equal(preferredRearCamera([camera('a','Camera 1'),camera('b','Camera 2')],'b'),'b');
  assert.equal(preferredRearCamera([camera('a','Back Ultra Wide'),camera('b','Front Main')],'a'),'a');
 });
+test('number-only rear camera labels choose the first rear candidate instead of retaining an auxiliary browser default',()=>{
+ const devices=[camera('front','camera2 1, facing front'),camera('normal','camera2 0, facing back'),camera('other','camera2 2, facing back')];assert.equal(preferredRearCamera(devices,'other'),'normal');
+ // Camera 0 is not hardcoded: order and a rear-facing label drive the generic fallback.
+ assert.equal(preferredRearCamera([camera('x','Camera 7, facing back'),camera('y','Camera 0, facing back')],'y'),'x');
+});
+test('plain rear wide camera wins over virtual multi-camera and labeled auxiliary lenses',()=>{
+ const devices=[camera('virtual','Back Dual Wide Camera'),camera('tele','Back Tele Camera'),camera('ultra','Back Super Wide Camera'),camera('normal','Back Wide Camera')];assert.equal(preferredRearCamera(devices,'virtual'),'normal');
+});
 test('camera enumeration failure or a hung enumeration leaves the existing stream usable',async()=>{
  assert.deepEqual(await cameraChoices({enumerateDevices:async()=>{throw Error('unsupported');}},10),[]);
  assert.deepEqual(await cameraChoices({enumerateDevices:()=>new Promise(()=>{})},10),[]);
