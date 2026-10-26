@@ -85,3 +85,8 @@ ko.updatesBody='v0.8.0 · 2026년 10월 25일\n어두운 표의 행·칸 재인�
 en.updatesBody='v0.8.0 · 2026-10-25\nAdded dark-table row/cell OCR and quantity-separator handling. Repeated company notation in the same image can support importer extraction; raw evidence is preserved. Search both MFDS datasets with per-candidate sources and partial-failure status. The 20-phone-photo evaluation has not run; capture and review templates are prepared.\n\n'+en.updatesBody;
 ja.updatesBody='v0.8.0 · 2026年10月25日\n暗い表の行・セル再読取と内容量の区切り処理を追加。同じ写真の会社表記を照合し原文を保持します。二つの食薬処資料を検索して候補ごとの出典と一部取得失敗を表示。携帯撮影20枚の評価は写真未入手のため未実施で、記録用紙のみ用意しました。\n\n'+ja.updatesBody;
 zh.updatesBody='v0.8.0 · 2026年10月25日\n增加深色表格行列重读和净含量分隔符处理，同一图片的重复公司标记可辅助提取并保留原文。同时查询两种食药处资料，显示各候选来源和部分失败状态。尚无20张手机实拍照片，未执行该评估，仅准备了拍摄记录模板。\n\n'+zh.updatesBody;
+
+ko.intro='라벨을 읽고 제조국과 원료 원산지 표시를 구분해 확인하세요.\n브랜드의 국적과 제품을 만든 나라는 다를 수 있어요.';
+en.intro='Read the label and check manufacture and ingredient origins separately.\nA brand’s home country can differ from its factories.';
+ja.intro='ラベルを読み、製造国と原料原産地を分けて確認します。\nブランドの国と製造国は異なる場合があります。';
+zh.intro='读取标签，分别核对制造国和原料原产地。\n品牌所属国家可能与产品制造国不同。';
